@@ -33,6 +33,9 @@ bool InputBox(const char *title, const char *message, char *inputText, int maxLe
 
         DrawRectangleRec(buttonRect, MAROON);
         DrawText("Valider", buttonRect.x + 10, buttonRect.y + 10, 20, WHITE);
+        if (CheckCollisionPointRec(GetMousePosition(), buttonRect) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+            inputCompleted = true;
+        }
 
         EndDrawing();
 
