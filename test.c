@@ -66,6 +66,27 @@ bool InputBox(const char *title, const char *message, char *inputText, int maxLe
             !CheckCollisionPointRec(GetMousePosition(), boxRect)) {
             windowClosed = true;
         }
+        if (inputCompleted) {
+            printf("taille du tab : %s\n", inputText);
+              arraySize = atoi(inputText);
+
+                // Ensure the size is in the range (1 to 9)
+                if (arraySize < 1 || arraySize > 9) {
+                    arraySize = 0;
+                    DrawText("Erreur! Veuillez entrer une valeur entre 1 et 9.", 100, 150, 20, RED);
+                } else {
+                    // Dynamically allocate an array of the specified size
+                    dynamicArray = (int *)malloc(arraySize * sizeof(int));
+
+                    // Initialize the array with default values
+                    for (int i = 0; i < arraySize; i++) {
+                        dynamicArray[i] = 0;
+                    }
+                }
+
+            // Fermez la fenêtre de saisie
+            windowClosed = true;
+        }
     }
 
     return inputCompleted;
