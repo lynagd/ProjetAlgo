@@ -1,53 +1,55 @@
 # lynacode
-#include <raylib.h>
+#include "raylib.h"
 
-int main(void) {
-    // Initialisation de la fenêtre
+int main(void)
+{
+    // Initialization
     const int screenWidth = 800;
     const int screenHeight = 450;
-    InitWindow(screenWidth, screenHeight, "Raylib Buttons and Text");
 
-    // Définition des positions et dimensions des boutons
-    Rectangle buttonRect1 = { 50, 50, 200, 50 };
-    Rectangle buttonRect2 = { 50, 150, 200, 50 };
+    InitWindow(screenWidth, screenHeight, "Raylib Buttons");
 
-    // Déclaration d'une variable pour stocker le texte du bouton
-    const char* buttonText1 = "Button 1";
-    const char* buttonText2 = "Button 2";
-
-    // Variable pour stocker le texte à afficher
-    const char* displayText = "Hello, Raylib!";
+    // Define the buttons
+    Rectangle button1 = { 50, 200, 200, 50 };
+    Rectangle button2 = { 50, 300, 200, 50 };
+    Rectangle button3 = { 550, 200, 200, 50 };
+    Rectangle button4 = { 550, 300, 200, 50 };
 
     SetTargetFPS(60);
 
-    while (!WindowShouldClose()) {
+    // Main game loop
+    while (!WindowShouldClose())
+    {
+        // Draw
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+            ClearBackground(RAYWHITE);
 
-        // Affichage des boutons
-        DrawRectangleRec(buttonRect1, GRAY);
-        DrawRectangleRec(buttonRect2, GRAY);
+            // Draw the comment
+            DrawText("Voulez vous creer un tableau?", screenWidth/2 - MeasureText("Voulez vous creer un tableau?", 20)/2, 50, 20, BLACK);
 
-        // Affichage du texte des boutons
-        DrawText(Créer, buttonRect1.x + 10, buttonRect1.y + 10, 20, BLACK);
-        DrawText(Remplir, buttonRect2.x + 10, buttonRect2.y + 10, 20, BLACK);
+            // Draw the buttons
+            DrawRectangleRec(button1, GRAY);
+            DrawRectangleRec(button2, GRAY);
+            DrawRectangleRec(button3, GRAY);
+            DrawRectangleRec(button4, GRAY);
 
-        // Affichage du texte central
-        DrawText(Voulez vous créer un tableau?, screenWidth / 2 - MeasureText(displayText, 20) / 2, screenHeight / 2 - 10, 20, BLACK);
-
-        // Vérification si la souris est sur un bouton
-        if (CheckCollisionPointRec(GetMousePosition(), buttonRect1) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            displayText = "Button 1 pressed!";
-        } else if (CheckCollisionPointRec(GetMousePosition(), buttonRect2) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            displayText = "Button 2 pressed!";
-        }
+            // Draw the button text
+            DrawText("Creer", button1.x + button1.width/2 - MeasureText("Creer", 20)/2, button1.y + 15, 20, BLACK);
+            DrawText("Remplir", button2.x + button2.width/2 - MeasureText("Remplir", 20)/2, button2.y + 15, 20, BLACK);
+            DrawText("Supprimer", button3.x + button3.width/2 - MeasureText("Supprimer", 20)/2, button3.y + 15, 20, BLACK);
+            DrawText("Ajouter", button4.x + button4.width/2 - MeasureText("Ajouter", 20)/2, button4.y + 15, 20, BLACK);
 
         EndDrawing();
     }
 
-    // Fermeture de la fenêtre
+    // De-Initialization
     CloseWindow();
 
     return 0;
 }
+
+    
+
+      
+      
