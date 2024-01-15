@@ -20,7 +20,9 @@ int main(void) {
     // Additional variables for the input box and array
     bool createMode = false;
     bool fillMode = false;
+    bool deleteMode = false;
     int fillIndex = 0;
+    int deleteIndex = -1;
     char inputValue[64] = ""; // Buffer for user input
     Rectangle inputBox = {20, 120, 150, 30};
 
@@ -37,6 +39,7 @@ int main(void) {
             if (CheckCollisionPointRec(GetMousePosition(), button1)) {
                 createMode = true;
                 fillMode = false;
+                deleteMode = false;
                 strcpy(inputValue, ""); // Clear the input buffer
             }
 
@@ -44,7 +47,16 @@ int main(void) {
             if (CheckCollisionPointRec(GetMousePosition(), button2)) {
                 fillMode = true;
                 createMode = false;
+                deleteMode = false;
                 fillIndex = 0;
+                strcpy(inputValue, ""); // Clear the input buffer
+            }
+
+            // Check if the "Supprimer" button is clicked
+            if (CheckCollisionPointRec(GetMousePosition(), button3)) {
+                deleteMode = true;
+                createMode = false;
+                fillMode = false;
                 strcpy(inputValue, ""); // Clear the input buffer
             }
         }
@@ -109,6 +121,39 @@ int main(void) {
             }
         }
 
+        // Handle user input when deleting from the array
+        if (deleteMode) {
+            int key = GetKeyPressed();
+            if (key > 0) {
+                // Handle keys
+                if ((key >= KEY_ZERO) && (key <= KEY_NINE)) {
+                    int len = strlen(inputValue);
+                    if (len < 63) {
+                        inputValue[len] = (char)key;
+                        inputValue[len + 1] = '\0';
+                    }
+                } else if (key == KEY_BACKSPACE) {
+                    int len = strlen(inputValue);
+                    if (len > 0) {
+                        inputValue[len - 1] = '\0';
+                    }
+                } else if (key == KEY_ENTER) {
+                    // Delete the specified index from the array
+                    deleteIndex = atoi(inputValue);
+
+                    if (deleteIndex >= 0 && deleteIndex < arraySize) {
+                        for (int i = deleteIndex; i < arraySize - 1; i++) {
+                            myArray[i] = myArray[i + 1];
+                        }
+                        arraySize--;
+                    }
+
+                    // Disable deletion mode
+                    deleteMode = false;
+                }
+            }
+        }
+
         // Draw
         BeginDrawing();
 
@@ -126,8 +171,8 @@ int main(void) {
         DrawText("Supprimer", button3.x + button3.width / 2 - MeasureText("Supprimer", 20) / 2, button3.y + 15, 20, BLACK);
         DrawText("Ajouter", button4.x + button4.width / 2 - MeasureText("Ajouter", 20) / 2, button4.y + 15, 20, BLACK);
 
-        // Draw the input box during creation or fill mode
-        if (createMode || fillMode) {
+        // Draw the input box during creation, fill, or delete mode
+        if (createMode || fillMode || deleteMode) {
             DrawRectangleRec(inputBox, RAYWHITE);
             DrawRectangleLinesEx(inputBox, 2, BLACK);
             DrawText(inputValue, inputBox.x + 5, inputBox.y + 8, 20, BLACK);
