@@ -27,7 +27,7 @@ int main(void) {
     int fillIndex = 0;
     int deleteValue = -1;
     int addValue = -1;
-    int sortIndex = -1;
+    int step=0;
     char inputValue[64] = ""; // Buffer for user input
     Rectangle inputBox = {20, 120, 150, 30};
 
@@ -84,6 +84,7 @@ int main(void) {
             // Check if the "Trier" button is clicked
             if (CheckCollisionPointRec(GetMousePosition(), button5)) {
                 sortMode = true;
+                step=0;
                 createMode = false;
                 fillMode = false;
                 deleteMode = false;
@@ -221,23 +222,35 @@ int main(void) {
                 }
             }
         }
-        // Handle user input when sorting the array
-         if (sortMode) {
-        // Perform one swap of the bubble sort algorithm
-        if (myArray[sortIndex] > myArray[sortIndex + 1]) {
-        // Swap myArray[sortIndex] and myArray[sortIndex + 1]
-        int temp = myArray[sortIndex];
-        myArray[sortIndex] = myArray[sortIndex + 1];
-        myArray[sortIndex + 1] = temp;
-         }
+       // Handle user input when sorting the array
+       if (sortMode) {
 
-       // Move to the next pair of elements
-       sortIndex++;
-      if (sortIndex >= arraySize - 1) {
-        sortIndex = 0;
-       }
-      }
+          if (step < arraySize - 1) {
 
+        if (myArray[step] > myArray[step + 1]) {
+
+            // Swap myArray[step] and myArray[step + 1]
+
+            int temp = myArray[step];
+
+            myArray[step] = myArray[step + 1];
+
+            myArray[step + 1] = temp;
+
+        }
+
+        step++;
+
+    } else {
+
+        // Sorting is complete, reset step counter
+
+        step = 0;
+        sortMode=false;
+
+    }
+
+}
 
        
 
