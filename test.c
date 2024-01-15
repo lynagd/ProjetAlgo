@@ -27,6 +27,7 @@ int main(void) {
     int fillIndex = 0;
     int deleteValue = -1;
     int addValue = -1;
+    int sortIndex = -1;
     char inputValue[64] = ""; // Buffer for user input
     Rectangle inputBox = {20, 120, 150, 30};
 
@@ -220,24 +221,25 @@ int main(void) {
                 }
             }
         }
-
         // Handle user input when sorting the array
-        if (sortMode) {
-            // Bubble sort the array
-            for (int i = 0; i < arraySize - 1; i++) {
-                for (int j = 0; j < arraySize - i - 1; j++) {
-                    if (myArray[j] > myArray[j + 1]) {
-                        // Swap myArray[j] and myArray[j + 1]
-                        int temp = myArray[j];
-                        myArray[j] = myArray[j + 1];
-                        myArray[j + 1] = temp;
-                    }
-                }
-            }
+         if (sortMode) {
+        // Perform one swap of the bubble sort algorithm
+        if (myArray[sortIndex] > myArray[sortIndex + 1]) {
+        // Swap myArray[sortIndex] and myArray[sortIndex + 1]
+        int temp = myArray[sortIndex];
+        myArray[sortIndex] = myArray[sortIndex + 1];
+        myArray[sortIndex + 1] = temp;
+         }
 
-            // Disable sorting mode
-            sortMode = false;
-        }
+       // Move to the next pair of elements
+       sortIndex++;
+      if (sortIndex >= arraySize - 1) {
+        sortIndex = 0;
+       }
+      }
+
+
+       
 
         // Draw
         BeginDrawing();
