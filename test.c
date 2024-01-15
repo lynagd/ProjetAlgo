@@ -22,7 +22,7 @@ int main(void) {
     bool fillMode = false;
     bool deleteMode = false;
     int fillIndex = 0;
-    int deleteIndex = -1;
+    int deleteValue = -1;
     char inputValue[64] = ""; // Buffer for user input
     Rectangle inputBox = {20, 120, 150, 30};
 
@@ -138,14 +138,23 @@ int main(void) {
                         inputValue[len - 1] = '\0';
                     }
                 } else if (key == KEY_ENTER) {
-                    // Delete the specified index from the array
-                    deleteIndex = atoi(inputValue);
+                    // Delete all occurrences of the specified value from the array
+                    deleteValue = atoi(inputValue);
+                    bool found = false;
 
-                    if (deleteIndex >= 0 && deleteIndex < arraySize) {
-                        for (int i = deleteIndex; i < arraySize - 1; i++) {
-                            myArray[i] = myArray[i + 1];
+                    for (int i = 0; i < arraySize; i++) {
+                        if (myArray[i] == deleteValue) {
+                            found = true;
+                            for (int j = i; j < arraySize - 1; j++) {
+                                myArray[j] = myArray[j + 1];
+                            }
+                            arraySize--;
+                            i--; // Decrement i to check the same index again
                         }
-                        arraySize--;
+                    }
+
+                    if (!found) {
+                        DrawText("This value does not exist in the array", 200, 300, 20, BLACK);
                     }
 
                     // Disable deletion mode
